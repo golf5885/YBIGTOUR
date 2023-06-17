@@ -38,12 +38,12 @@ const ChatScreen = ({ character, onTextChange }) => {
 
   return (
       <div className="chat-screen">
-      {/* 
-      <div className="messages">
+      
+      {/* <div className="messages">
         {messages.map((message, index) => (
           <ChatMessage key={index} message={message} />
         ))}
-        </div>*/}
+        </div> */}
       {questionIndex < questions.length && (
         <div className="question">
           <p>{questions[questionIndex]}</p>
