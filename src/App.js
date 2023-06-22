@@ -28,7 +28,7 @@ function App() {
         <Route path="/character" element={<Character />} />
         <Route path="/:character/map" element={<Map />} />
         <Route path="/:character/airport" element={<Airport />} />
-        <Route path="/:character/cancel" element={<Cancel SetDo={setDo} SetEat={setEat} SetStay={setStay} />} />
+        <Route path="/:character/cancel" element={<Cancel setDo={setDo} setEat={setEat} setStay={setStay} Do={Do} />} />
         <Route path="/:character/options/do" element={<OptionsDo Do={Do} setPlayList={updatePlayList} />} />
         <Route path="/:character/options/eat" element={<OptionsEat Eat={Eat} setPlayList={updatePlayList} />} />
         <Route path="/:character/options/stay" element={<OptionsStay Stay={Stay} setPlayList={updatePlayList} />} />
