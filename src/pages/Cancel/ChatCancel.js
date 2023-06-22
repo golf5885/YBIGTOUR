@@ -9,7 +9,14 @@ import communicate from "../../communicate";
 
 import "../../css/ChatScreen.css";
 
-const ChatCancel = ({ character, onTextChange, setEat, setStay, setDo, Do }) => {
+const ChatCancel = ({
+  character,
+  setGuideText,
+  setEat,
+  setStay,
+  setDo,
+  Do,
+}) => {
   const [messages, setMessages] = useState([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const navigate = useNavigate();
@@ -23,17 +30,15 @@ const ChatCancel = ({ character, onTextChange, setEat, setStay, setDo, Do }) => 
     setQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
-  const handleTextChange = (text) => {
-    onTextChange(text); // Call the onTextChange prop
-  };
-
   const cancelQuestions = [
     "호텔의 예약이 취소되었습니다. 다음으로 무엇을 할까요?",
   ];
 
-  if (questionIndex === cancelQuestions.length) {
-    onTextChange("");
-  }
+  useEffect(() => {
+    if (questionIndex === cancelQuestions.length) {
+      setGuideText("");
+    }
+  }, [questionIndex]);
 
   const handleNext = () => {
     // const category =
@@ -45,7 +50,7 @@ const ChatCancel = ({ character, onTextChange, setEat, setStay, setDo, Do }) => 
       setChatComponent(
         <ChatEat
           character={character}
-          onTextChange={handleTextChange}
+          onTextChange={setGuideText}
           setEat={setEat}
         />
       );
@@ -54,20 +59,13 @@ const ChatCancel = ({ character, onTextChange, setEat, setStay, setDo, Do }) => 
       setChatComponent(
         <ChatStay
           character={character}
-          onTextChange={handleTextChange}
+          onTextChange={setGuideText}
           setStay={setStay}
         />
       );
       setShowChatScreen(false);
     } else if (category === "attraction") {
-      setChatComponent(
-        <ChatDo
-          character={character}
-          onTextChange={handleTextChange}
-          Do={Do}
-          setDo={setDo}
-        />
-      );
+      setChatComponent(<ChatDo character={character} Do={Do} setDo={setDo} />);
       setShowChatScreen(false);
     }
   }, [category]);
@@ -83,8 +81,8 @@ const ChatCancel = ({ character, onTextChange, setEat, setStay, setDo, Do }) => 
   const zeroShotClassification = (text) => {
     // return hotel;
     communicate.post("/what", { A: text }).then((res) => {
-      console.log(1)
       setCategory(res.data.what);
+      console.log(res.data.what);
     });
     // 관광지, 음식, 호텔 분류 모델 리턴
     // food, hotel, attraction 중 하나 받아옴
@@ -108,7 +106,7 @@ const ChatCancel = ({ character, onTextChange, setEat, setStay, setDo, Do }) => 
               <p>{cancelQuestions[questionIndex]}</p>
               <ChatCancelInput
                 onSendMessage={handleSendMessage}
-                onTextChange={handleTextChange}
+                onTextChange={setGuideText}
               />
             </div>
           )}

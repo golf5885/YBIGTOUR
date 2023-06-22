@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import communicate from "../../communicate";
 
 const ChatStayInput = ({ onSendMessage, setStay }) => {
   const [message, setMessage] = useState("");
@@ -8,13 +9,17 @@ const ChatStayInput = ({ onSendMessage, setStay }) => {
   };
 
   const handleSubmit = (event) => {
-    /* communicate.post('/hotel',
-    { A,
-      pers_price,
-      pers_aspect
-    }).then((res) => {
-    setStay(res.data);
-    })*/
+    communicate
+      .post("/hotel", {
+        A: message,
+        pers_price: "low",
+        pers_aspect: "cleanness,facilities,kindness",
+      })
+      .then((res) => {
+        console.log(res.data);
+        setStay(res.data);
+      });
+
     event.preventDefault();
     if (message.trim() !== "") {
       onSendMessage(message);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import "../../css/Options.css";
@@ -52,9 +52,9 @@ const OptionsEat = ({ Eat, setPlayList }) => {
   setPlayList(updatedPlayList);
 };  
 
-  useEffect(() => {
-    handleDataUpdate();
-  }, [Eat, setPlayList]); // Eat 배열이 변경될 때마다 handleDataUpdate 함수 호출
+useCallback(() => {
+  handleDataUpdate();
+}, [Eat, setPlayList]); // Eat 배열이 변경될 때마다 handleDataUpdate 함수 호출
 
   const handleOptionClick = (option) => {
     navigate(`/${encodeURIComponent(character)}/video/${encodeURIComponent(option)}`);
